@@ -23,83 +23,118 @@
         .stat-title { font-size: 11px; color: var(--text-sub); text-transform: uppercase; }
         .stat-value { font-size: 22px; font-weight: 700; margin-top: 3px; }
         .rupiah-box { background: linear-gradient(135deg, #0f172a, #1e293b); padding: 10px; border-radius: 12px; border: 1px dashed var(--accent-green); text-align: center; margin-bottom: 20px; font-size: 14px; }
-        .popup-reward { background: #1e293b; border: 2px solid var(--accent-purple); border-radius: 14px; padding: 15px; margin: 15px 0; text-align: center; }
+        .popup-reward { background: #1e293b; border: 2px solid var(--accent-purple); border-radius: 14px; padding: 15px; margin: 15px 0; text-align: center; animation: bounce 0.4s ease; }
         .wd-box, .history-box { background: #1e293b; border: 1px solid #334155; border-radius: 14px; margin-top: 20px; padding: 15px; text-align: left; }
         .tx-list { max-height: 150px; overflow-y: auto; font-size: 12px; }
         .tx-item { background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--accent-blue); display: flex; justify-content: space-between; align-items: center; }
         .tx-status-pending { color: var(--accent-orange); font-weight: bold; }
         .tx-status-sukses { color: var(--accent-green); font-weight: bold; }
         .status { font-size: 11px; color: var(--text-sub); margin-top: 15px; text-align: center; }
+        @keyframes bounce { 0% { transform: scale(0.9); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>XSRMULZ SMART CASH</h2>
+    
     <div id="login-section">
+        <p style="color: var(--text-sub); font-size: 13px; text-align: center; margin-bottom: 15px;">⚠️ Sekali membuat ID, akun akan terkunci permanen di HP ini!</p>
         <input type="text" id="username-input" placeholder="Buat ID / Username Anda...">
         <button class="btn-blue" onclick="loginUser()">DAFTAR / MASUK KE GAME</button>
     </div>
 
     <div id="game-section" style="display: none;">
-        <p style="text-align: center;">Player ID: <span id="display-username"></span></p>
+        <p style="color: var(--text-sub); margin: 0 0 15px 0; text-align: center;">Player ID: <span id="display-username" style="color: var(--text-main); font-weight: 600;"></span> 🕹️</p>
+        
         <div class="stats-grid">
-            <div class="stat-box"><div class="stat-title">Poin</div><div class="stat-value" id="saldo" style="color: var(--accent-green);">0</div></div>
-            <div class="stat-box"><div class="stat-title">Energi</div><div class="stat-value" id="energi-val" style="color: var(--accent-orange);">40/40</div></div>
+            <div class="stat-box">
+                <div class="stat-title">Poin Cloud</div>
+                <div class="stat-value" id="saldo" style="color: var(--accent-green);">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">Energi Klik</div>
+                <div class="stat-value" id="energi-val" style="color: var(--accent-orange);">40/40</div>
+            </div>
         </div>
 
-        <div class="rupiah-box">💵 Saldo: <span id="rupiah-val" style="color: var(--accent-green); font-weight: bold;">0p</span></div>
-        
-        <button class="btn-blue" onclick="nontonIklanFirebase()">📺 ISI ENERGI (+50 Poin)</button>
-        <button class="btn-green" id="click-btn" onclick="tambahPoinKoin(1)">👇 KLIK DAPAT POIN</button>
+        <div class="rupiah-box">
+            💵 Estimasi Saldo: <span id="rupiah-val" style="color: var(--accent-green); font-weight: bold; font-size: 16px;">0p</span>
+        </div>
 
-        <div style="margin: 20px 0; text-align: center;">
+        <div id="reward-popup-area" style="display: none;" class="popup-reward">
+            <h4 style="margin: 0; color: var(--accent-orange);">🎉 TARGET TERCAPAI! 🎉</h4>
+            <p id="reward-text" style="font-size: 13px; margin: 5px 0 10px 0;">Kamu mencapai target klik!</p>
+            <button class="btn-blue" id="btn-claim-normal" style="padding: 8px; font-size: 12px; margin: 2px 0;">Ambil Biasa</button>
+            <button class="btn-purple" id="btn-claim-double" style="padding: 10px; font-size: 13px; margin: 5px 0;">📺 Ambil 2x Lipat (Tonton Iklan)</button>
+        </div>
+        
+        <button class="btn-blue" onclick="nontonIklanFirebase()">📺 ISI ENERGI (+40 Energi + 50 Poin)</button>
+        <button class="btn-green" id="click-btn" onclick="tambahPoinKoin(1)">👇 KLIK DAPAT POIN (-1 Energi)</button>
+        
+        <div style="margin: 20px 0; min-height: 250px; text-align: center;">
             <script type="text/javascript">
                 atAsyncOptions = { 'key' : '5813035', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
                 document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.profitabledisplayformat.com/5813035/invoke.js"></scr' + 'ipt>');
             </script>
         </div>
-
+        
         <div class="wd-box">
-            <h3>Menu Penarikan</h3>
-            <select id="wd-method"><option value="DANA">DANA</option><option value="Gopay">Gopay</option></select>
-            <input type="number" id="wd-wallet-num" placeholder="Nomor HP">
-            <input type="number" id="wd-amount" placeholder="Jumlah Poin">
+            <h3>Menu Penarikan (Minimal 100 Poin)</h3>
+            <select id="wd-method">
+                <option value="DANA">DANA</option>
+                <option value="Gopay">Gopay</option>
+                <option value="OVO">OVO</option>
+            </select>
+            <input type="number" id="wd-wallet-num" placeholder="Nomor HP E-Wallet (08...)">
+            <input type="number" id="wd-amount" placeholder="Jumlah Poin (Min. 100)">
             <button class="btn-wd" onclick="ajukanPenarikan()">Tarik Saldo</button>
         </div>
-        <div class="history-box"><h3>Riwayat</h3><div class="tx-list" id="tx-history-area"></div></div>
+
+        <div class="history-box">
+            <h3>Riwayat Transaksi Kamu</h3>
+            <div class="tx-list" id="tx-history-area"></div>
+        </div>
+        
+        <div class="status" id="loading-status">Menghubungkan ke cloud...</div>
     </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
+    // Konfigurasi Firebase & Semua Fungsi Asli Kamu (Utuh)
     const firebaseConfig = { apiKey: "AIzaSyBShZJHZ66n2kVxJbu5_iqNv7Ae7lHc7s4", authDomain: "game-nonton-iklan.firebaseapp.com", databaseURL: "https://game-nonton-iklan-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "game-nonton-iklan", storageBucket: "game-nonton-iklan.firebasestorage.app", messagingSenderId: "511163008477", appId: "1:511163008477:web:a35966be1c7fa89d0a234", measurementId: "G-E0E5JMJXFP" };
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     let currentUser = localStorage.getItem("xsrmulz_logged_user") || "";
-    let poinSekarang = 0, energiMaks = 40, energiSekarang = 40, totalKlikSekarang = 0;
+    let poinSekarang = 0, energiMaks = 40, energiSekarang = 40, totalKlikSekarang = 0, bonusTertunda = 0;
 
-    function loginUser() { const u = document.getElementById('username-input').value.trim(); if(u) { localStorage.setItem("xsrmulz_logged_user", u); location.reload(); } }
+    window.onload = function() { if (currentUser) jalankanSistemGame(); };
+    function loginUser() { const u = document.getElementById('username-input').value.trim().toLowerCase(); if(u) { localStorage.setItem("xsrmulz_logged_user", u); currentUser = u; jalankanSistemGame(); } }
     
-    // Fungsi Game Dasar
     function jalankanSistemGame() {
         document.getElementById('display-username').innerText = currentUser;
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('game-section').style.display = 'block';
         database.ref('users/' + currentUser).on('value', (s) => {
-            const d = s.val() || {};
-            poinSekarang = d.poin || 0;
+            const d = s.val();
+            if(d) { poinSekarang = d.poin || 0; energiSekarang = d.energi || energiMaks; totalKlikSekarang = d.total_klik || 0; }
             document.getElementById('saldo').innerText = poinSekarang;
+            document.getElementById('energi-val').innerText = energiSekarang + "/" + energiMaks;
             document.getElementById('rupiah-val').innerText = poinSekarang + "p";
         });
+        muatRiwayatTransaksi();
     }
 
-    function tambahPoinKoin(val) { if(currentUser) { database.ref('users/'+currentUser).update({poin: poinSekarang + val}); } }
-    function nontonIklanFirebase() { alert("Memuat Iklan..."); setTimeout(() => { database.ref('users/'+currentUser).update({poin: poinSekarang + 50}); }, 2000); }
-    function ajukanPenarikan() { alert("Penarikan diproses!"); }
+    function tambahPoinKoin(jumlah) {
+        if(energiSekarang < 1) { alert("Energi habis!"); return; }
+        database.ref('users/'+currentUser).update({poin: poinSekarang + jumlah, energi: energiSekarang - 1, total_klik: totalKlikSekarang + 1});
+    }
 
-    if(currentUser) jalankanSistemGame();
+    function nontonIklanFirebase() { alert("Memutar Iklan..."); setTimeout(() => { database.ref('users/'+currentUser).update({poin: poinSekarang + 50, energi: energiMaks}); }, 3000); }
+    function ajukanPenarikan() { alert("Penarikan diproses!"); }
+    function muatRiwayatTransaksi() { database.ref('withdraw_requests').on('value', (s) => { document.getElementById('tx-history-area').innerHTML = "Riwayat dimuat..."; }); }
 </script>
 </body>
 </html>
