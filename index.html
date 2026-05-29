@@ -6,87 +6,29 @@
     <title>Xsrmulz Smart Cash - Rupiah Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-color: #1e293b;
-            --accent-green: #10b981;
-            --accent-blue: #3b82f6;
-            --accent-red: #ef4444;
-            --accent-orange: #f59e0b;
-            --accent-purple: #8b5cf6;
-            --text-main: #f8fafc;
-            --text-sub: #94a3b8;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background: var(--card-color);
-            padding: 25px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 420px;
-            box-sizing: border-box;
-            border: 1px solid #334155;
-        }
-
+        :root { --bg-color: #0f172a; --card-color: #1e293b; --accent-green: #10b981; --accent-blue: #3b82f6; --accent-red: #ef4444; --accent-orange: #f59e0b; --accent-purple: #8b5cf6; --text-main: #f8fafc; --text-sub: #94a3b8; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: var(--card-color); padding: 25px 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); width: 100%; max-width: 420px; box-sizing: border-box; border: 1px solid #334155; }
         h2 { font-weight: 700; margin-bottom: 25px; text-align: center; background: linear-gradient(to right, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         h3 { font-weight: 600; font-size: 16px; margin-top: 0; border-bottom: 1px solid #334155; padding-bottom: 8px; margin-bottom: 15px; }
-
-        input, select {
-            font-family: 'Poppins', sans-serif;
-            padding: 12px;
-            width: 100%;
-            margin-bottom: 12px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            background-color: #0f172a;
-            color: var(--text-main);
-            font-size: 14px;
-            text-align: center;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        button {
-            font-family: 'Poppins', sans-serif;
-            padding: 14px;
-            font-size: 14px;
-            margin: 6px 0;
-            cursor: pointer;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            width: 100%;
-            transition: transform 0.1s;
-        }
+        input, select { font-family: 'Poppins', sans-serif; padding: 12px; width: 100%; margin-bottom: 12px; border-radius: 10px; border: 1px solid #334155; background-color: #0f172a; color: var(--text-main); font-size: 14px; text-align: center; box-sizing: border-box; outline: none; }
+        button { font-family: 'Poppins', sans-serif; padding: 14px; font-size: 14px; margin: 6px 0; cursor: pointer; border-radius: 10px; border: none; font-weight: 600; width: 100%; transition: transform 0.1s; }
         button:active { transform: scale(0.98); }
-
         .btn-blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; }
         .btn-green { background: linear-gradient(135deg, #10b981, #047857); color: white; height: 65px; font-size: 16px; }
         .btn-wd { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; }
         .btn-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; }
-
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: #0f172a; padding: 12px; border-radius: 12px; border: 1px solid #334155; text-align: center; }
         .stat-title { font-size: 11px; color: var(--text-sub); text-transform: uppercase; }
         .stat-value { font-size: 22px; font-weight: 700; margin-top: 3px; }
-        
         .rupiah-box { background: linear-gradient(135deg, #0f172a, #1e293b); padding: 10px; border-radius: 12px; border: 1px dashed var(--accent-green); text-align: center; margin-bottom: 20px; font-size: 14px; }
+        .popup-reward { background: #1e293b; border: 2px solid var(--accent-purple); border-radius: 14px; padding: 15px; margin: 15px 0; text-align: center; }
         .wd-box, .history-box { background: #1e293b; border: 1px solid #334155; border-radius: 14px; margin-top: 20px; padding: 15px; text-align: left; }
         .tx-list { max-height: 150px; overflow-y: auto; font-size: 12px; }
         .tx-item { background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--accent-blue); display: flex; justify-content: space-between; align-items: center; }
+        .tx-status-pending { color: var(--accent-orange); font-weight: bold; }
+        .tx-status-sukses { color: var(--accent-green); font-weight: bold; }
         .status { font-size: 11px; color: var(--text-sub); margin-top: 15px; text-align: center; }
     </style>
 </head>
@@ -94,27 +36,30 @@
 
 <div class="container">
     <h2>XSRMULZ SMART CASH</h2>
-    
     <div id="login-section">
         <input type="text" id="username-input" placeholder="Buat ID / Username Anda...">
         <button class="btn-blue" onclick="loginUser()">DAFTAR / MASUK KE GAME</button>
     </div>
 
     <div id="game-section" style="display: none;">
+        <p style="text-align: center;">Player ID: <span id="display-username"></span></p>
         <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-title">Poin</div>
-                <div class="stat-value" id="saldo" style="color: var(--accent-green);">0</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-title">Energi</div>
-                <div class="stat-value" id="energi-val" style="color: var(--accent-orange);">40/40</div>
-            </div>
+            <div class="stat-box"><div class="stat-title">Poin</div><div class="stat-value" id="saldo" style="color: var(--accent-green);">0</div></div>
+            <div class="stat-box"><div class="stat-title">Energi</div><div class="stat-value" id="energi-val" style="color: var(--accent-orange);">40/40</div></div>
         </div>
 
+        <div class="rupiah-box">💵 Saldo: <span id="rupiah-val" style="color: var(--accent-green); font-weight: bold;">0p</span></div>
+        
         <button class="btn-blue" onclick="nontonIklanFirebase()">📺 ISI ENERGI (+50 Poin)</button>
         <button class="btn-green" id="click-btn" onclick="tambahPoinKoin(1)">👇 KLIK DAPAT POIN</button>
-        
+
+        <div style="margin: 20px 0; text-align: center;">
+            <script type="text/javascript">
+                atAsyncOptions = { 'key' : '5813035', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.profitabledisplayformat.com/5813035/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
+
         <div class="wd-box">
             <h3>Menu Penarikan</h3>
             <select id="wd-method"><option value="DANA">DANA</option><option value="Gopay">Gopay</option></select>
@@ -122,48 +67,39 @@
             <input type="number" id="wd-amount" placeholder="Jumlah Poin">
             <button class="btn-wd" onclick="ajukanPenarikan()">Tarik Saldo</button>
         </div>
-
-        <div style="margin: 20px 0; text-align: center;">
-            <script type="text/javascript">
-                atAsyncOptions = {
-                    'key' : '5813035',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
-                };
-                document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.profitabledisplayformat.com/5813035/invoke.js"></scr' + 'ipt>');
-            </script>
-        </div>
-
-        <div class="history-box">
-            <h3>Riwayat</h3>
-            <div class="tx-list" id="tx-history-area"></div>
-        </div>
+        <div class="history-box"><h3>Riwayat</h3><div class="tx-list" id="tx-history-area"></div></div>
     </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-    // (Script Firebase kamu tetap sama seperti sebelumnya...)
-    const firebaseConfig = {
-        apiKey: "AIzaSyBShZJHZ66n2kVxJbu5_iqNv7Ae7lHc7s4",
-        authDomain: "game-nonton-iklan.firebaseapp.com",
-        databaseURL: "https://game-nonton-iklan-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "game-nonton-iklan",
-        storageBucket: "game-nonton-iklan.firebasestorage.app",
-        messagingSenderId: "511163008477",
-        appId: "1:511163008477:web:a35966be1c7fa89d0a234",
-        measurementId: "G-E0E5JMJXFP"
-    };
+    const firebaseConfig = { apiKey: "AIzaSyBShZJHZ66n2kVxJbu5_iqNv7Ae7lHc7s4", authDomain: "game-nonton-iklan.firebaseapp.com", databaseURL: "https://game-nonton-iklan-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "game-nonton-iklan", storageBucket: "game-nonton-iklan.firebasestorage.app", messagingSenderId: "511163008477", appId: "1:511163008477:web:a35966be1c7fa89d0a234", measurementId: "G-E0E5JMJXFP" };
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
+    let currentUser = localStorage.getItem("xsrmulz_logged_user") || "";
+    let poinSekarang = 0, energiMaks = 40, energiSekarang = 40, totalKlikSekarang = 0;
+
+    function loginUser() { const u = document.getElementById('username-input').value.trim(); if(u) { localStorage.setItem("xsrmulz_logged_user", u); location.reload(); } }
     
-    // (Fungsi-fungsi game kamu tetap sama di sini...)
-    // ... [Salin fungsi dari kode lama kamu ke bagian ini] ...
-    
-    // Pastikan fungsi loginUser, jalankanSistemGame, tambahPoinKoin, dll tetap ada di sini
+    // Fungsi Game Dasar
+    function jalankanSistemGame() {
+        document.getElementById('display-username').innerText = currentUser;
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('game-section').style.display = 'block';
+        database.ref('users/' + currentUser).on('value', (s) => {
+            const d = s.val() || {};
+            poinSekarang = d.poin || 0;
+            document.getElementById('saldo').innerText = poinSekarang;
+            document.getElementById('rupiah-val').innerText = poinSekarang + "p";
+        });
+    }
+
+    function tambahPoinKoin(val) { if(currentUser) { database.ref('users/'+currentUser).update({poin: poinSekarang + val}); } }
+    function nontonIklanFirebase() { alert("Memuat Iklan..."); setTimeout(() => { database.ref('users/'+currentUser).update({poin: poinSekarang + 50}); }, 2000); }
+    function ajukanPenarikan() { alert("Penarikan diproses!"); }
+
+    if(currentUser) jalankanSistemGame();
 </script>
 </body>
 </html>
